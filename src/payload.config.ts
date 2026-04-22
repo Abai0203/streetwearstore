@@ -7,6 +7,7 @@ import { Users } from './collections/Users'
 import { Media } from './collections/Media'
 import { vercelBlobStorage } from '@payloadcms/storage-vercel-blob'
 import { Categories } from './collections/Categories'
+import { Authors } from './collections/Authors'
 
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
@@ -18,17 +19,17 @@ export default buildConfig({
       baseDir: path.resolve(dirname),
     },
   },
-  collections: [Users, Media, Categories],
+  collections: [Users, Media, Categories, Authors],
   editor: lexicalEditor(),
   secret: process.env.PAYLOAD_SECRET || '',
   typescript: {
     outputFile: path.resolve(dirname, 'payload-types.ts'),
   },
-db: vercelPostgresAdapter({
-  pool: {
-    connectionString: process.env.POSTGRES_URL!,
-  },
-}),
+  db: vercelPostgresAdapter({
+    pool: {
+      connectionString: process.env.POSTGRES_URL!,
+    },
+  }),
   plugins: [
     vercelBlobStorage({
       collections: {
